@@ -21,7 +21,7 @@ namespace Enemy
         private bool stopSpawning = false;
         private void Start()
         {
-            StartCoroutine(SpawnEnemyAfterDelay(7));
+            StartCoroutine(SpawnEnemyAfterDelay(Random.Range(minDelay, maxDelay)));
         }
 
         private void SpawnEnemy()

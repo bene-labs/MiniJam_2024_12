@@ -372,10 +372,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c308836ba108e26459d0c5507ba1da84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDelay: 10
-  maxDelay: 15
+  minDelay: 1
+  maxDelay: 5
   enemyPrefabs:
-  - {fileID: 0}
+  - {fileID: 7777432494690320214, guid: 82ba87e5d064afe429ba76cd0c764ab5, type: 3}
+  - {fileID: 7471325373403019259, guid: 45fac2c60efecf4429f7d46e2aea7fb4, type: 3}
+  - {fileID: 2616686083326002102, guid: ce0bbb68734758c44b2a61897a91e08e, type: 3}
   player: {fileID: 0}
   spawnAreas:
   - {fileID: 3944310146715978396}
