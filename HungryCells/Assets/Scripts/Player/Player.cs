@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -52,7 +53,8 @@ namespace Player
         private Camera _camera;
         private Vector3 _minSize = new Vector3(0.5f, 0.5f, 1f);
         private Vector3 _maxSize = new Vector3(5f, 5f, 5f);
-        
+        private float loseScreenDelayTime = 2;
+
         // Methods -----------------------------------------------------
         private void CalcSize()
         { 
@@ -149,6 +151,7 @@ namespace Player
         private void OnDeath()
         {
             UIManager.SetDeathScreenVisibility(true);
+            StartCoroutine(LoadNewScene());
         }
         
         private bool TryEat(Enemy.Enemy enemy)
@@ -175,6 +178,15 @@ namespace Player
         private void UpdateEnergyBar()
         {
             UIManager.SetEnergyBar(_collectedEnergy, maxEnergy);
+        }
+
+
+        IEnumerator LoadNewScene()
+        {
+            yield return new WaitForSeconds(loseScreenDelayTime);
+
+            SceneManager.LoadScene("LoseScene");
+
         }
     }
 }
