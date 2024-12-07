@@ -93,7 +93,7 @@ MonoBehaviour:
   maxSpeed: 0.8
   energyDrain: 5
   energyValue: 20
-  eatSizeValue: 0.5
+  eatSizeValue: 0.2
 --- !u!50 &8420630086286930472
 Rigidbody2D:
   serializedVersion: 5
