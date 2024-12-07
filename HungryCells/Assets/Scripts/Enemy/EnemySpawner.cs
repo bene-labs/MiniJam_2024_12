@@ -33,7 +33,7 @@ namespace Enemy
 
         }
 
-        private void SpawnEnemy()
+        private void SpawnEnemy(int overridSize = -1)
         {
             var spawnArea = spawnAreas[Random.Range(0, spawnAreas.Length)];
             var minSpawnPos = spawnArea.bounds.min;
@@ -60,7 +60,7 @@ namespace Enemy
                 {
                     minScale *= 1.2f;
                 }
-                minDelay = minDelay + (maxDelay - minDelay) / 3;
+                maxDelay += (minDelay - maxDelay) / 3;
                 time = 0;
             }
         }

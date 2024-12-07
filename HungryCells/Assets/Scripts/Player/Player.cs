@@ -40,6 +40,7 @@ namespace Player
         public SpriteRenderer spriteRenderer;
         public float spriteRotationOffset = -90;
         public float difficulty = 1f; 
+        public float difficultySpeed = 0.02f;
         
         [SerializeField] private AudioClip[] eatSounds;
         // Events
@@ -51,7 +52,7 @@ namespace Player
         private bool _canGetInput = true;
         private Camera _camera;
         private Vector3 _minSize = new Vector3(0.5f, 0.5f, 1f);
-        private Vector3 _maxSize = new Vector3(5f, 5f, 5f);
+        private Vector3 _maxSize = new Vector3(3f, 3f, 3f);
         
         // Methods -----------------------------------------------------
         private void CalcSize()
@@ -86,7 +87,7 @@ namespace Player
         {
             _collectedEnergy -= energyLoseSpeed * Time.deltaTime * difficulty;
             UpdateSize();
-            difficulty += Time.deltaTime * 0.01f;
+            difficulty += Time.deltaTime * difficultySpeed;
             transform.localScale += new Vector3(Time.deltaTime * 0.05f, Time.deltaTime * 0.05f, 0);  
             CalcSize();
             UpdateEnergyBar();

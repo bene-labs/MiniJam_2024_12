@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI energyBarText;
-    [SerializeField] private RectTransform energyBarValueTransform;
+    [SerializeField] private Image energyBarValueTransform;
     [SerializeField] private GameObject deathScreen;
 
     private static UIManager instance;
@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     public static void SetEnergyBar(float currentValue, float maxValue)
     {
         instance.energyBarText.text =  $"{currentValue:0.00}/{maxValue:0}";
-        instance.energyBarValueTransform.localScale = new Vector3(Math.Clamp(currentValue / maxValue, 0, 1), 1, 1);
+        instance.energyBarValueTransform.fillAmount = Math.Clamp(currentValue / maxValue, 0, 1);
     }
 
     public static void SetDeathScreenVisibility(bool isVisible)
