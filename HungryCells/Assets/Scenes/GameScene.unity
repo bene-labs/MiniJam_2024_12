@@ -809,7 +809,7 @@ SpriteRenderer:
   m_Size: {x: 5.12, y: 4.88}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1337961712
@@ -1095,9 +1095,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1585914464}
-  - component: {fileID: 1585914463}
   - component: {fileID: 1585914462}
   - component: {fileID: 1585914465}
+  - component: {fileID: 1585914466}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1157,24 +1157,9 @@ SpriteRenderer:
   m_Size: {x: 5.12, y: 4.88}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1585914463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1585914461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19f548b59ad64fb4bb3044fc2650c3d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  energyValue: 5
-  eatSizeValue: 0.2
-  damageValue: 2
 --- !u!4 &1585914464
 Transform:
   m_ObjectHideFlags: 0
@@ -1227,6 +1212,27 @@ CapsuleCollider2D:
   m_Offset: {x: -0.015084147, y: -0.5279556}
   m_Size: {x: 3.0383432, y: 4.0640883}
   m_Direction: 0
+--- !u!114 &1585914466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585914461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d510648eaae9cd45b646bee9b8356de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1405512799}
+  spriteObject: {fileID: 1585914461}
+  spriteRotationOffset: -90
+  rotationSpeed: 20
+  minSpeed: 0.2
+  maxSpeed: 0.8
+  energyDrain: 5
+  energyValue: 20
+  eatSizeValue: 0.5
 --- !u!1 &1880122548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1280,7 +1286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2023099784
 RectTransform:
   m_ObjectHideFlags: 0
