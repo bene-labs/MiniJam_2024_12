@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Drawing;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 namespace Enemy
@@ -12,12 +14,14 @@ namespace Enemy
         public float maxDelay = 15;
 
         [SerializeField] private GameObject[] enemyPrefabs;
+        [SerializeField] private float minScale;
+        [SerializeField] private float maxScale;
         public Player.Player player;
         public Collider2D[] spawnAreas;
         private bool stopSpawning = false;
         private void Start()
         {
-            StartCoroutine(SpawnEnemyAfterDelay(7));
+            StartCoroutine(SpawnEnemyAfterDelay(Random.Range(minDelay, maxDelay)));
         }
 
         private void SpawnEnemy()
@@ -29,9 +33,10 @@ namespace Enemy
             int randomEnemy = Random.Range(0, enemyPrefabs.Length);
             var newEnemy = Instantiate(enemyPrefabs[randomEnemy], this.transform);
             
-            
             newEnemy.transform.position = spawnPos;
             newEnemy.GetComponent<Enemy>().target = player.gameObject;
+            var randomScale = Random.Range(minScale, maxScale);
+            newEnemy.transform.localScale *= new Vector3(randomScale, randomScale, 0);
 
             StartCoroutine(SpawnEnemyAfterDelay(Random.Range(minDelay, maxDelay)));
         }
