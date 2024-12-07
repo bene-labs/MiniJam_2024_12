@@ -11,11 +11,10 @@ namespace Enemy
         public float minDelay = 10;
         public float maxDelay = 15;
 
-        public GameObject enemyPrefab;
+        [SerializeField] private GameObject[] enemyPrefabs;
         public Player.Player player;
         public Collider2D[] spawnAreas;
         private bool stopSpawning = false;
-        
         private void Start()
         {
             StartCoroutine(SpawnEnemyAfterDelay(7));
@@ -27,7 +26,10 @@ namespace Enemy
             var minSpawnPos = spawnArea.bounds.min;
             var maxSpawnPos = spawnArea.bounds.max;
             var spawnPos = new Vector2(Random.Range(minSpawnPos.x, maxSpawnPos.x), Random.Range(minSpawnPos.y, maxSpawnPos.y));
-            var newEnemy = Instantiate(enemyPrefab, this.transform);
+            int randomEnemy = Random.Range(0, enemyPrefabs.Length);
+            var newEnemy = Instantiate(enemyPrefabs[randomEnemy], this.transform);
+            
+            
             newEnemy.transform.position = spawnPos;
             newEnemy.GetComponent<Enemy>().target = player.gameObject;
 
