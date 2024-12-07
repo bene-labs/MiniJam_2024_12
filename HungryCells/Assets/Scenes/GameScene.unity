@@ -872,6 +872,22 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1169925298}
+    - target: {fileID: 6748880361351522164, guid: c3124fe3a15625f41bc6709b6138f901, type: 3}
+      propertyPath: maxScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748880361351522164, guid: c3124fe3a15625f41bc6709b6138f901, type: 3}
+      propertyPath: minScale
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748880361351522164, guid: c3124fe3a15625f41bc6709b6138f901, type: 3}
+      propertyPath: initialEnemiesNumber
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748880361351522164, guid: c3124fe3a15625f41bc6709b6138f901, type: 3}
+      propertyPath: increaseDifficultyInSeconds
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
