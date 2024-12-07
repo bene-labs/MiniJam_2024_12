@@ -10,13 +10,26 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI energyBarText;
     [SerializeField] private Image energyBarValueTransform;
     [SerializeField] private GameObject deathScreen;
-
+    [SerializeField] private TextMeshProUGUI scoreText;
+    
     private static UIManager instance;
-
+    private int score = 0;
+    
     private void Awake()
     {
         // singleton pattern for easy ui component access
         if (instance == null) instance = this;
+    }
+
+    public static void IncreaseScore(int amount)
+    {
+        instance.score += amount;
+        instance.scoreText.text = "Score:" +  instance.score.ToString();
+    }
+    
+    public void OnRestart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
     public static void SetEnergyBar(float currentValue, float maxValue)

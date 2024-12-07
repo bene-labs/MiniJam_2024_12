@@ -6,6 +6,7 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 namespace Player
@@ -55,6 +56,7 @@ namespace Player
         private Vector3 _minSize = new Vector3(0.5f, 0.5f, 1f);
         private Vector3 _maxSize = new Vector3(3f, 3f, 3f); 
         private float loseScreenDelayTime = 2;
+        [SerializeField] private VisualEffect eatVfx;
 
         // Methods -----------------------------------------------------
         private void CalcSize()
@@ -67,6 +69,7 @@ namespace Player
         // Start is called before the first frame update
         void Awake()
         {
+            eatVfx.Stop();
             _camera = Camera.main;
         }
 
@@ -110,6 +113,8 @@ namespace Player
             Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
             spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation,
                 rotationSpeed * Time.deltaTime);
+            if (_collectedEnergy <= 0)
+                OnDeath();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -152,7 +157,8 @@ namespace Player
         private void OnDeath()
         {
             UIManager.SetDeathScreenVisibility(true);
-            StartCoroutine(LoadNewScene());
+            Destroy(gameObject);
+            //StartCoroutine(LoadNewScene());
         }
         
         private bool TryEat(Enemy.Enemy enemy)
@@ -168,8 +174,10 @@ namespace Player
             }
             
             _collectedEnergy += enemy.energyValue;
+            UIManager.IncreaseScore((int) enemy.energyValue * 10);
             if (_collectedEnergy > maxEnergy)
                 _collectedEnergy = maxEnergy;
+            eatVfx.Play();
             UpdateEnergyBar();
             UpdateSize();
             enemy.OnEaten();
