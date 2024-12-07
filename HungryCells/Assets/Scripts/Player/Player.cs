@@ -5,6 +5,7 @@ using DG.Tweening;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -18,7 +19,17 @@ namespace Player
         public float moveSpeed = 8;
         public float mouseDistForMaxSpeed = 5;
         public float rotationSpeed = 20;
-        public float size;
+        
+        private float size;
+        public float Size
+        {
+            get => size;
+            private set
+            {
+                size = value;
+                SizeChanged.Invoke();
+            }
+        }
 
         [Header("Animation Timings")]
         public float invincibilityTime = 0.1f;
@@ -28,27 +39,32 @@ namespace Player
         public GameObject spriteObject;
         public SpriteRenderer spriteRenderer;
         public float spriteRotationOffset = -90;
+        public float difficulty = 1f; 
+        
+        [SerializeField] private AudioClip[] eatSounds;
+        // Events
+        public Action SizeChanged = delegate { };
         
         // Member Fields -----------------------------------------------------
         private float _collectedEnergy = 0f;
         private bool _isInvincible = false;
         private bool _canGetInput = true;
         private Camera _camera;
-        private Vector3 _startSize;
+        private Vector3 _minSize = new Vector3(0.5f, 0.5f, 1f);
+        private Vector3 _maxSize = new Vector3(5f, 5f, 5f);
         
         // Methods -----------------------------------------------------
         private void CalcSize()
         { 
             var sprite = spriteRenderer.sprite; 
             var localScale = transform.localScale; 
-            size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
+            Size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
         }
 
         // Start is called before the first frame update
         void Awake()
         {
             _camera = Camera.main;
-            _startSize = transform.localScale;
         }
 
         private void Start()
@@ -59,10 +75,20 @@ namespace Player
             CalcSize();
         }
 
+        void UpdateSize()
+        {
+            transform.localScale = Vector3.Lerp(_minSize, _maxSize, _collectedEnergy / maxEnergy);
+            CalcSize();
+        }
+
         // Update is called once per frame
         void Update()
         {
-            _collectedEnergy -= energyLoseSpeed * Time.deltaTime;
+            _collectedEnergy -= energyLoseSpeed * Time.deltaTime * difficulty;
+            UpdateSize();
+            difficulty += Time.deltaTime * 0.01f;
+            transform.localScale += new Vector3(Time.deltaTime * 0.05f, Time.deltaTime * 0.05f, 0);  
+            CalcSize();
             UpdateEnergyBar();
             if (!_canGetInput || !Input.GetMouseButton(0)) return;
             // move player
@@ -128,24 +154,20 @@ namespace Player
         private bool TryEat(Enemy.Enemy enemy)
         {
             Debug.Log($"Trying to eat Enemy of size {enemy.Size} while at size {size}");
-            
+            AudioSource.PlayClipAtPoint(eatSounds[Random.Range(0, eatSounds.Length)], transform.position);
+
             if (enemy.Size > size)
             {
-                transform.localScale -= new Vector3(enemy.eatSizeValue / 2, enemy.eatSizeValue / 2, 0);
-                if (transform.localScale.x < _startSize.x && transform.localScale.y < _startSize.y)
-                {
-                    transform.localScale = _startSize;
-                }
                 TakeDamage(enemy.energyDrain);
+                UpdateSize();
                 return true;
             }
-            transform.localScale += new Vector3(enemy.eatSizeValue, enemy.eatSizeValue, 0);
-            CalcSize();
             
             _collectedEnergy += enemy.energyValue;
             if (_collectedEnergy > maxEnergy)
                 _collectedEnergy = maxEnergy;
             UpdateEnergyBar();
+            UpdateSize();
             enemy.OnEaten();
             return true;
         }

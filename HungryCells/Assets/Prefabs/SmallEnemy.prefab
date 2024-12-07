@@ -93,7 +93,7 @@ MonoBehaviour:
   maxSpeed: 0.8
   energyDrain: 5
   energyValue: 20
-  eatSizeValue: 0.5
+  eatSizeValue: 0.05
 --- !u!50 &744323762882966771
 Rigidbody2D:
   serializedVersion: 5
@@ -202,7 +202,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.12, y: 4.86}
+  m_Size: {x: 3.31, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
