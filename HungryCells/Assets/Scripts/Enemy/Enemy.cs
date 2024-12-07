@@ -6,6 +6,7 @@ namespace Enemy
     {
         public GameObject target;
         public GameObject spriteObject;
+        public SpriteRenderer spriteRenderer;
         public float spriteRotationOffset = 180;
         public float rotationSpeed = 20;
         private float moveSpeed;
@@ -16,16 +17,13 @@ namespace Enemy
         public float energyValue;
         public float eatSizeValue;
         
-        
-        private SpriteRenderer _spriteRenderer;
         private Collider2D _collider;
         
         private void Start()
         {
             moveSpeed = Random.Range(minSpeed, maxSpeed);
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _collider = GetComponent<Collider2D>();
-            var sprite = _spriteRenderer.sprite;
+            var sprite = spriteRenderer.sprite;
             var localScale = transform.localScale;
             Size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
         }
