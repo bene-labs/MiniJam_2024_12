@@ -36,7 +36,7 @@ namespace Enemy
             newEnemy.transform.position = spawnPos;
             newEnemy.GetComponent<Enemy>().target = player.gameObject;
             var randomScale = Random.Range(minScale, maxScale);
-            newEnemy.transform.localScale *= new Vector3(randomScale, randomScale, 0);
+            newEnemy.transform.localScale += new Vector3(randomScale, randomScale, 0);
 
             StartCoroutine(SpawnEnemyAfterDelay(Random.Range(minDelay, maxDelay)));
         }

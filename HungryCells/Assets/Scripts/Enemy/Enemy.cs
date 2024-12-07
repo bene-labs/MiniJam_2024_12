@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.VFX;
+using Random = UnityEngine.Random;
 
 namespace Enemy
 {
@@ -17,15 +20,43 @@ namespace Enemy
         public float energyValue;
         public float eatSizeValue;
         
+        [SerializeField] private VisualEffect biggerVfx;
+        [SerializeField] private VisualEffect smallerVfx;
+        private bool smallerThanPlayer;
+        
         private Collider2D _collider;
+        private Player.Player _player; 
         
         private void Start()
         {
             moveSpeed = Random.Range(minSpeed, maxSpeed);
             _collider = GetComponent<Collider2D>();
+            _player = target.GetComponent<Player.Player>();
+            _player.SizeChanged +=OnPlayerSizeChanged;
             var sprite = spriteRenderer.sprite;
             var localScale = transform.localScale;
             Size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
+            OnPlayerSizeChanged();
+        }
+
+        private void OnDisable()
+        {
+            _player.SizeChanged -= OnPlayerSizeChanged;
+        }
+
+        private void OnPlayerSizeChanged()
+        {
+            smallerThanPlayer = _player.Size > Size;
+            if (smallerThanPlayer)
+            {
+                biggerVfx.Stop();
+                smallerVfx.Play();
+            }
+            else
+            {
+                biggerVfx.Play();
+                smallerVfx.Stop();
+            }
         }
         
         public void OnEaten()
@@ -36,13 +67,14 @@ namespace Enemy
         
         private void Update()
         {
-            Vector3 movementDir = target.transform.position - transform.position;
-            movementDir.z = 0;
+            Vector3 playerDist = target.transform.position - transform.position;
+            playerDist.z = 0;
 
-            transform.position += movementDir.normalized * (moveSpeed * Time.deltaTime);
-
+            transform.position += playerDist.normalized * (moveSpeed * Time.deltaTime)
+                * (smallerThanPlayer && playerDist.magnitude < 3 ? -0.5f : 1);
+            
             // rotate enemy to face the movement direction
-            float angle = Mathf.Atan2(movementDir.y, movementDir.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(playerDist.y, playerDist.x) * Mathf.Rad2Deg;
             Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
             spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation, rotationSpeed * Time.deltaTime);
         }
