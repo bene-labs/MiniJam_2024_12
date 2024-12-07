@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3649376244595339746
+--- !u!114 &-8937008529164694674
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -26,7 +26,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -55,12 +55,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DissolveScale: 25
+    - _DissolveScale: 35
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 1.6032941, g: 6.0361686, b: 9.734287, a: 1}
-    - _Color2: {r: 5.216475, g: 2.7599242, b: 0.7803617, a: 1}
+    - _Color: {r: 0.15343753, g: 3.3632057, b: 5.9921565, a: 1}
+    - _Color2: {r: 2.1185477, g: 1.1208779, b: 0.3169254, a: 1}
     - _DissolveSpeed: {r: -0.5, g: 0, b: 0, a: 0}
     - _TextureSpeed: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

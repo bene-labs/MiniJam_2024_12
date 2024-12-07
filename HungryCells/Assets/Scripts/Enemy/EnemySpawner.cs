@@ -19,9 +19,18 @@ namespace Enemy
         public Player.Player player;
         public Collider2D[] spawnAreas;
         private bool stopSpawning = false;
+        private float time;
+        [SerializeField] private int initialEnemiesNumber;
+        [SerializeField] private float increaseDifficultyInSeconds;
+
         private void Start()
         {
-            StartCoroutine(SpawnEnemyAfterDelay(Random.Range(minDelay, maxDelay)));
+            //StartCoroutine(SpawnEnemyAfterDelay(Random.Range(minDelay, maxDelay)));
+            for (int i = 0; i < initialEnemiesNumber; i++)
+            {
+                SpawnEnemy();
+            }
+
         }
 
         private void SpawnEnemy()
@@ -40,6 +49,23 @@ namespace Enemy
 
             StartCoroutine(SpawnEnemyAfterDelay(Random.Range(minDelay, maxDelay)));
         }
+
+        void Update()
+        {
+            time += Time.deltaTime;
+
+            if (time > increaseDifficultyInSeconds)
+            {
+                if (minScale * 1.2f < maxScale)
+                {
+                    minScale *= 1.2f;
+                }
+                minDelay = minDelay + (maxDelay - minDelay) / 3;
+                time = 0;
+            }
+        }
+
+
 
         public void DestroyAllEnemies()
         {
