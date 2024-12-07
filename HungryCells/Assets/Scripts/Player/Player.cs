@@ -127,7 +127,6 @@ namespace Player
         
         private bool TryEat(Enemy.Enemy enemy)
         {
-            return true;
             Debug.Log($"Trying to eat Enemy of size {enemy.Size} while at size {size}");
             
             if (enemy.Size > size)
