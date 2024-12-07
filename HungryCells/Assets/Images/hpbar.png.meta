@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 371d31b7de884f34a8d5c414b3a4549d
+guid: ff1b4f79d2360754fab83fa0e7645189
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4f24333db2f23834889b5993dc68c366
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      hpbar_0: 1282281668142398115
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
