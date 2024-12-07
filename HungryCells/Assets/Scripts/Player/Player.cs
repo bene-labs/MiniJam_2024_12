@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
     public class Player : MonoBehaviour
     {
         // Exposed Fields -----------------------------------------------------
-        [Header("General")] public float requiredEnergy = 100f;
-        public float energyOnSpawn = 10f;
+        [Header("General")] 
+        public float maxEnergy = 100f;
+        public float energyOnSpawn = 80f;
+        public float energyLoseSpeed = 5f;
         public float moveSpeed = 8;
         public float mouseDistForMaxSpeed = 5;
         public float rotationSpeed = 20;
         public float size;
 
-        [Header("Animation Timings")] public float eggHatchTime = 3;
+        [Header("Animation Timings")]
         public float invincibilityTime = 0.1f;
         public float damageFlashTime = 0.1f;
 
@@ -30,9 +33,9 @@ namespace Player
         private float _collectedEnergy = 0f;
         private bool _isInvincible = false;
         private bool _canGetInput = true;
-
         private Camera _camera;
-
+        private Vector3 _startSize;
+        
         // Methods -----------------------------------------------------
         private void CalcSize()
         { 
@@ -45,38 +48,39 @@ namespace Player
         void Awake()
         {
             _camera = Camera.main;
-
-            CalcSize();
+            _startSize = transform.localScale;
         }
 
         private void Start()
         {
             Debug.Log("START");
+            _collectedEnergy = energyOnSpawn;
+            UpdateEnergyBar();
             CalcSize();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (_canGetInput && Input.GetMouseButton(0))
-            {
-                // move player
-                Vector3 movementDir = _camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                movementDir.z = 0;
+            _collectedEnergy -= energyLoseSpeed * Time.deltaTime;
+            UpdateEnergyBar();
+            if (!_canGetInput || !Input.GetMouseButton(0)) return;
+            // move player
+            Vector3 movementDir = _camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            movementDir.z = 0;
 
-                // calculate a multiplier for the speed based on the distance the mouse has to the player.
-                // if its closer than the threshold the player's speed is reduced.
-                float mouseDistMultiplier = Math.Clamp(movementDir.magnitude / mouseDistForMaxSpeed, 0, 1);
+            // calculate a multiplier for the speed based on the distance the mouse has to the player.
+            // if its closer than the threshold the player's speed is reduced.
+            float mouseDistMultiplier = Math.Clamp(movementDir.magnitude / mouseDistForMaxSpeed, 0, 1);
 
-                transform.position += movementDir.normalized * (mouseDistMultiplier * (moveSpeed * Time.deltaTime));
+            transform.position += movementDir.normalized * (mouseDistMultiplier * (moveSpeed * Time.deltaTime));
 
 
-                // rotate player to face the movement direction
-                float angle = Mathf.Atan2(movementDir.y, movementDir.x) * Mathf.Rad2Deg;
-                Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
-                spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation,
-                    rotationSpeed * Time.deltaTime);
-            }
+            // rotate player to face the movement direction
+            float angle = Mathf.Atan2(movementDir.y, movementDir.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
+            spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation,
+                rotationSpeed * Time.deltaTime);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -123,15 +127,25 @@ namespace Player
         
         private bool TryEat(Enemy.Enemy enemy)
         {
+            return true;
+            Debug.Log($"Trying to eat Enemy of size {enemy.Size} while at size {size}");
+            
             if (enemy.Size > size)
             {
+                transform.localScale -= new Vector3(enemy.eatSizeValue / 2, enemy.eatSizeValue / 2, 0);
+                if (transform.localScale.x < _startSize.x && transform.localScale.y < _startSize.y)
+                {
+                    transform.localScale = _startSize;
+                }
                 TakeDamage(enemy.energyDrain);
                 return true;
             }
-            transform.localScale += new Vector3(enemy.eatSizeValue,enemy.eatSizeValue, 0);
+            transform.localScale += new Vector3(enemy.eatSizeValue, enemy.eatSizeValue, 0);
             CalcSize();
             
             _collectedEnergy += enemy.energyValue;
+            if (_collectedEnergy > maxEnergy)
+                _collectedEnergy = maxEnergy;
             UpdateEnergyBar();
             enemy.OnEaten();
             return true;
@@ -139,7 +153,7 @@ namespace Player
 
         private void UpdateEnergyBar()
         {
-            UIManager.SetEnergyBar(_collectedEnergy, requiredEnergy);
+            UIManager.SetEnergyBar(_collectedEnergy, maxEnergy);
         }
     }
 }
