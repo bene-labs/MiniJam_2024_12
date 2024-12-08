@@ -37,10 +37,10 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 411
-    y: -1434
-    width: 916
-    height: 2584
+    x: 0
+    y: -1374
+    width: 1301
+    height: 2525
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3448,7 +3448,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615019}
   m_ExposedName: ColorGradient
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 0
   m_Category: 
   m_Min:
     m_Type:
