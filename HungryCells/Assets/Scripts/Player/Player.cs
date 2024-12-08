@@ -95,7 +95,7 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-            _collectedEnergy -= energyLoseSpeed * Time.deltaTime * difficulty;
+            _collectedEnergy -= energyLoseSpeed * Time.deltaTime * difficulty * Mathf.Min(1.25f, Mathf.Max(0.4f, (_collectedEnergy / maxEnergy) * 1.5f));
             UpdateSize();
             difficulty += Time.deltaTime * difficultySpeed;
             transform.localScale += new Vector3(Time.deltaTime * 0.05f, Time.deltaTime * 0.05f, 0);  

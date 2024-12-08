@@ -1349,6 +1349,10 @@ PrefabInstance:
       propertyPath: energyOnSpawn
       value: 42
       objectReference: {fileID: 0}
+    - target: {fileID: 6622973761160936829, guid: b16434e04acfdd54f959c2fef57d8335, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6672787716650041411, guid: b16434e04acfdd54f959c2fef57d8335, type: 3}
       propertyPath: m_Name
       value: Player

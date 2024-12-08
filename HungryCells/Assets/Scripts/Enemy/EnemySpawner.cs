@@ -43,7 +43,12 @@ namespace Enemy
             var maxSpawnPos = spawnArea.bounds.max;
             var spawnPos = new Vector2(Random.Range(minSpawnPos.x, maxSpawnPos.x), Random.Range(minSpawnPos.y, maxSpawnPos.y));
             var randomEnemy = Random.Range(0, enemyPrefabs.Length);
+            if (randomEnemy > 0 && Random.Range(0, 4) >= 3)
+                randomEnemy--;
+            
             var newEnemy = Instantiate(enemyPrefabs[randomEnemy], this.transform);
+            
+           
             
             newEnemy.transform.position = spawnPos;
             newEnemy.GetComponent<Enemy>().target = player;
