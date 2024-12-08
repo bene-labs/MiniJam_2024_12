@@ -43,6 +43,10 @@ namespace Player
         public float spriteRotationOffset = -90;
         public float difficulty = 1f; 
         public float difficultySpeed = 0.02f;
+        [SerializeField] private VisualEffect eatVfx;
+        [SerializeField] private VisualEffect damagedVfx;
+        [SerializeField] private VisualEffect deathVfx;
+
         
         [SerializeField] private AudioClip[] eatSounds;
         // Events
@@ -56,8 +60,7 @@ namespace Player
         private Vector3 _minSize = new Vector3(0.5f, 0.5f, 1f);
         private Vector3 _maxSize = new Vector3(3f, 3f, 3f); 
         private float loseScreenDelayTime = 2;
-        [SerializeField] private VisualEffect eatVfx;
-
+        
         // Methods -----------------------------------------------------
         private void CalcSize()
         { 
@@ -70,6 +73,8 @@ namespace Player
         void Awake()
         {
             eatVfx.Stop();
+            damagedVfx.Stop();
+            deathVfx.Stop();
             _camera = Camera.main;
         }
 
@@ -96,6 +101,12 @@ namespace Player
             transform.localScale += new Vector3(Time.deltaTime * 0.05f, Time.deltaTime * 0.05f, 0);  
             CalcSize();
             UpdateEnergyBar();
+            if (_collectedEnergy <= 0)
+            {
+                OnDeath();
+                return;
+            }
+
             if (!_canGetInput || !Input.GetMouseButton(0)) return;
             // move player
             Vector3 movementDir = _camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
@@ -129,7 +140,7 @@ namespace Player
         {
             if (_isInvincible)
                 return;
-
+            damagedVfx.Play();
             _collectedEnergy -= damage;
             StartCoroutine(DamageAnimation(damage));
         }
@@ -157,7 +168,9 @@ namespace Player
         private void OnDeath()
         {
             UIManager.SetDeathScreenVisibility(true);
-            Destroy(gameObject);
+            spriteObject.gameObject.SetActive(false);
+            enabled = false;
+            deathVfx.Play();
             //StartCoroutine(LoadNewScene());
         }
         

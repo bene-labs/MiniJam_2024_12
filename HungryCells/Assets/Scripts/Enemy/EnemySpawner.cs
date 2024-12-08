@@ -33,17 +33,20 @@ namespace Enemy
 
         }
 
-        private void SpawnEnemy(int overridSize = -1)
+        private void SpawnEnemy(int overrideSize = -1)
         {
+            if (!player.isActiveAndEnabled)
+                return;
+            
             var spawnArea = spawnAreas[Random.Range(0, spawnAreas.Length)];
             var minSpawnPos = spawnArea.bounds.min;
             var maxSpawnPos = spawnArea.bounds.max;
             var spawnPos = new Vector2(Random.Range(minSpawnPos.x, maxSpawnPos.x), Random.Range(minSpawnPos.y, maxSpawnPos.y));
-            int randomEnemy = Random.Range(0, enemyPrefabs.Length);
+            var randomEnemy = Random.Range(0, enemyPrefabs.Length);
             var newEnemy = Instantiate(enemyPrefabs[randomEnemy], this.transform);
             
             newEnemy.transform.position = spawnPos;
-            newEnemy.GetComponent<Enemy>().target = player.gameObject;
+            newEnemy.GetComponent<Enemy>().target = player;
             var randomScale = Random.Range(minScale, maxScale);
             newEnemy.transform.localScale += new Vector3(randomScale, randomScale, 0);
 
@@ -56,9 +59,9 @@ namespace Enemy
 
             if (time > increaseDifficultyInSeconds)
             {
-                if (minScale * 1.2f < maxScale)
+                if (minScale < 0.7f)
                 {
-                    minScale *= 1.2f;
+                    minScale += 0.1f;
                 }
                 maxDelay += (minDelay - maxDelay) / 3;
                 time = 0;

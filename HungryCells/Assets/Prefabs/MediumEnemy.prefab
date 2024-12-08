@@ -406,8 +406,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3046309386462733562}
   spriteRotationOffset: -90
   rotationSpeed: 20
-  minSpeed: 0.2
-  maxSpeed: 0.8
+  minSpeed: 0.26
+  maxSpeed: 1.04
   energyDrain: 5
   energyValue: 20
   eatSizeValue: 0.3

@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
     
     public static void SetEnergyBar(float currentValue, float maxValue)
     {
+        currentValue = Mathf.Max(0, currentValue);
         instance.energyBarText.text =  $"{currentValue:0.00}/{maxValue:0}";
         instance.energyBarValueTransform.fillAmount = Math.Clamp(currentValue / maxValue, 0, 1);
     }
