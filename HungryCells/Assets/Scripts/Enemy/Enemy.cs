@@ -59,7 +59,7 @@ namespace Enemy
         
         public void OnEaten()
         {
-            EnemyLeftovers.Create(transform.position);
+            EnemyLeftovers.Create(transform.position, transform.localScale);
             _collider.enabled = false;
             Destroy(gameObject);
         }

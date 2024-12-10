@@ -7,9 +7,10 @@ public class EnemyLeftovers : MonoBehaviour
 {
     [SerializeField] private VisualEffect visualEffect;
     
-    public static void Create(Vector3 position)
+    public static void Create(Vector3 position, Vector3 scale)
     { 
-        Instantiate(Resources.Load<EnemyLeftovers>("Leftovers"), position, quaternion.identity);
+        Instantiate(Resources.Load<EnemyLeftovers>("Leftovers"), position, quaternion.identity)
+            .transform.localScale = scale;
     }
 
     private void LateUpdate()

@@ -113,7 +113,7 @@ namespace Player
             movementDir.z = 0;
 
             // calculate a multiplier for the speed based on the distance the mouse has to the player.
-            // if its closer than the threshold the player's speed is reduced.
+            // if it's closer than the threshold the player's speed is reduced.
             float mouseDistMultiplier = Math.Clamp(movementDir.magnitude / mouseDistForMaxSpeed, 0, 1);
 
             transform.position += movementDir.normalized * (mouseDistMultiplier * (moveSpeed * Time.deltaTime));
@@ -185,7 +185,6 @@ namespace Player
                 UpdateSize();
                 return true;
             }
-            
             _collectedEnergy += enemy.energyValue;
             UIManager.IncreaseScore((int) enemy.energyValue * 10);
             if (_collectedEnergy > maxEnergy)
