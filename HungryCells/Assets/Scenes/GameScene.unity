@@ -1304,7 +1304,7 @@ PrefabInstance:
     - target: {fileID: 29463785005275712, guid: b16434e04acfdd54f959c2fef57d8335, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 83d208125b39a494fb0ab7e580adcfac, type: 2}
+      objectReference: {fileID: 2100000, guid: bf4b2405e181ae94380cda7f36f78dd9, type: 2}
     - target: {fileID: 29463785005275712, guid: b16434e04acfdd54f959c2fef57d8335, type: 3}
       propertyPath: m_Parameters.textureScale.x
       value: 1
